@@ -6,12 +6,28 @@ http_archive(
     sha256 = "6139762b62b37c1fd171d7f22aa39566cb7dc2916f0f801d505a9aaf118c117f",
 )
 
+# Fetch the webtesting rules
 http_archive(
     name = "io_bazel_rules_webtesting",
-    url = "https://github.com/bazelbuild/rules_webtesting/archive/v0.2.0.zip",
-    strip_prefix = "rules_webtesting-0.2.0",
-    sha256 = "cecc12f07e95740750a40d38e8b14b76fefa1551bef9332cb432d564d693723c",
+    url = "https://github.com/bazelbuild/rules_webtesting/archive/ca7b8062d9cf4ef2fde9193c7d37a0764c4262d7.zip",
+    strip_prefix = "rules_webtesting-ca7b8062d9cf4ef2fde9193c7d37a0764c4262d7",
+    sha256 = "28c73cf9d310fa6dba30e66bdb98071341c99c3feb8662f2d3883a632de97d72",
 )
+
+# Fetch the NodeJS rules
+http_archive(
+    name = "build_bazel_rules_nodejs",
+    url = "https://github.com/bazelbuild/rules_nodejs/archive/0.9.1.zip",
+    strip_prefix = "rules_nodejs-0.9.1",
+    sha256 = "6139762b62b37c1fd171d7f22aa39566cb7dc2916f0f801d505a9aaf118c117f",
+)
+
+
+load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
+
+check_bazel_version("0.11.1")
+node_repositories(package_json = ["//:package.json"])
+
 
 http_archive(
     name = "build_bazel_rules_typescript",
@@ -22,8 +38,8 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_go",
-    url = "https://github.com/bazelbuild/rules_go/releases/download/0.10.3/rules_go-0.10.3.tar.gz",
-    sha256 = "feba3278c13cde8d67e341a837f69a029f698d7a27ddbb2a202be7a10b22142a",
+    url = "https://github.com/bazelbuild/rules_go/releases/download/0.11.0/rules_go-0.11.0.tar.gz",
+    sha256 = "f70c35a8c779bb92f7521ecb5a1c6604e9c3edd431e50b6376d7497abc8ad3c1",
 )
 
 # This commit matches the version of buildifier in angular/ngcontainer
