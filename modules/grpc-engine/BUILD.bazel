@@ -15,6 +15,11 @@ ts_proto_library(
     deps = [":engine_proto"],
 )
 
+filegroup(
+  name = "temp_proto",
+  srcs = ["grpc-engine.proto"]
+)
+
 ng_module(
     name = "grpc-engine",
     srcs = glob([
@@ -54,5 +59,8 @@ ts_library(
 
 jasmine_node_test(
     name = "unit_test",
-    srcs = [":unit_test_lib"],
+    srcs = [
+      ":unit_test_lib",
+      ":grpc-engine.proto",
+    ],
 )

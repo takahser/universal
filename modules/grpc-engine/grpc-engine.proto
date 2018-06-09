@@ -1,6 +1,6 @@
+package grpcengine;
 syntax = "proto3";
 
-package GRPCEngine;
 
 service SSR {
   rpc render(RenderOptions) returns (RenderResponse) {}
