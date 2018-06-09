@@ -4,8 +4,14 @@ import { NgModule, Component } from '@angular/core';
 import 'zone.js';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { startSocketEngine, SocketEngineResponse } from '@nguniversal/socket-engine';
-import * as WebSocket from 'ws';
+import { startGRPCEngine } from '@nguniversal/grpc-engine';
+import {load, credentials} from 'grpc';
+
+function createClient() {
+  const engineProto = load('../grpc-engine.proto').GRPCEngine;
+  const client = engineProto.SSR('localhost:9090', credentials.createInsecure());
+  return client;
+}
 
 export function makeTestingModule(template: string, component?: any): any {
   @Component({
@@ -26,15 +32,12 @@ describe('test runner', () => {
   it('should render a basic template', async (done) => {
     const template = `some template: ${new Date()}`;
     const appModule = makeTestingModule(template);
-    const server = await startSocketEngine(appModule);
+    const server = await startGRPCEngine(appModule);
+    const client = createClient();
 
-    const ws = new WebSocket('ws://localhost:9090');
-
-    ws.on('open', () => ws.send(JSON.stringify({id: 1, url: '/path', document: '<root></root>'})));
-    ws.on('message', (res: SocketEngineResponse) => {
-      expect(res.id).toEqual(1);
-      expect(res.html).toEqual(template);
-      server.close();
+    client.render({id: 1, document: '<root></root>'}, async(_err: any, response: any) => {
+      expect(response.html).toContain(template);
+      await server.close();
       done();
     });
   });

@@ -15,6 +15,7 @@ export interface GRPCEngineServer {
 }
 
 export interface GRPCEngineRenderOptions extends RenderOptions {
+  id: number;
 }
 
 export interface GRPCEngineResponse {
@@ -36,9 +37,12 @@ export function startGRPCEngine(
     server.addProtoService(protoDescriptor.GRPCEngine.service, {
       render: async (call: any, callback: any) => {
         const renderOptions = call.request as GRPCEngineRenderOptions;
-        const html = await engine.render(renderOptions);
-        // TODO: how to send errors?
-        callback(null, html);
+        try {
+          const html = await engine.render(renderOptions);
+          callback(null, {id: renderOptions.id, html});
+        } catch (error) {
+          callback(null, {id: renderOptions.id, error});
+        }
       }
     });
     // TODO: how to take credentials as input?
