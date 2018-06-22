@@ -1,4 +1,4 @@
-# Angular Socket Engine
+# Angular Universal Socket Engine
 
 Framework and Platform agnostic Angular Universal rendering.
 
