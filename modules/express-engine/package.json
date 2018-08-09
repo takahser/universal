@@ -12,7 +12,8 @@
     "@angular/common": "NG_VERSION",
     "@angular/core": "NG_VERSION",
     "@angular/platform-server": "NG_VERSION",
-    "express": "EXPRESS_VERSION"
+    "express": "EXPRESS_VERSION",
+    "ws": "6.0.0"
   },
   "ng-update": {
     "packageGroup": "NG_UPDATE_PACKAGE_GROUP"

@@ -19,6 +19,8 @@ import {
 import { FileLoader } from './file-loader';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 
+export const WebSocket = require('ws');
+
 /**
  * These are the allowed options for the engine
  */
